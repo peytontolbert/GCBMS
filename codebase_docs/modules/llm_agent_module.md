@@ -439,7 +439,19 @@ A user encounters an error and requests an explanation.
 - **Refactoring**: The process of restructuring existing computer code without changing its external behavior.
 
 ## Visual Aids
-![LLM Agent Architecture](path/to/llm_agent_architecture_diagram.png)
+```mermaid
+graph TD
+    A[User Input] --> B[LLM Agent]
+    B --> C[Natural Language Processing]
+    C --> D[Task Planning]
+    D --> E[Knowledge Retrieval]
+    E --> F[Action Generation]
+    F --> G[Output Generation]
+    G --> H[User Response]
+    
+    I[External Data Sources] -.-> E
+    J[API Integrations] -.-> F
+```
 
 ## Testing Strategies
 - **Unit Tests**:
