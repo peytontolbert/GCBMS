@@ -9,11 +9,13 @@ from jsonschema import validate
 import requests
 import time
 from src.logger import logger
-
+import logging
 
 class ChatGPT:
     def __init__(self, base_url: str = "http://localhost:11434"):
         self.base_url = base_url
+        self.logger = logging.getLogger(__name__)
+        logging.basicConfig(level=logging.INFO)
 
     @retry(
         stop=stop_after_attempt(6), wait=wait_exponential(multiplier=1, min=4, max=10)
@@ -110,11 +112,32 @@ class ChatGPT:
         return final_summary
 
     async def generate(self, prompt: str) -> str:
-        logger.info(
-            f"Generating response for prompt: {prompt}",
-            {"component": "ChatGPT", "method": "generate"},
-        )
-        return await self.chat_with_ollama("You are a helpful AI assistant.", prompt)
+        """
+        Sends a prompt to the Ollama API and retrieves the generated response.
+        """
+        self.logger.info(f"Sending prompt to Ollama: {prompt}")
+        async with aiohttp.ClientSession() as session:
+            try:
+                async with session.post(
+                    f"{self.base_url}/api/generate",
+                    json={
+                        "model": "hermes3",
+                        "prompt": prompt,
+                        "stream": False,
+                    },
+                ) as response:
+                    if response.status == 200:
+                        data = await response.json()
+                        generated_text = data.get("response", "")
+                        self.logger.debug(f"Received response: {generated_text}")
+                        return generated_text
+                    else:
+                        error_msg = f"Ollama API returned status {response.status}"
+                        self.logger.error(error_msg)
+                        raise Exception(error_msg)
+            except aiohttp.ClientError as e:
+                self.logger.error(f"Network error: {str(e)}")
+                raise
 
     async def robust_chat_with_ollama(
         self, system_prompt: str, user_prompt: str
@@ -258,17 +281,3 @@ class ChatGPT:
         )
 
 
-
-
-
-# Example usage
-if __name__ == "__main__":
-
-    async def main():
-        chatgpt = ChatGPT()
-        response = await chatgpt.chat_with_ollama_with_fallback(
-            "You are a helpful AI assistant.", "What is the weather today?"
-        )
-        print(response)
-
-    asyncio.run(main())

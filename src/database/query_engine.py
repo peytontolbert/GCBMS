@@ -1,13 +1,28 @@
-from .database import Neo4jConnection
+import psycopg2
+from psycopg2 import sql
+import logging
 
 class QueryEngine:
     def __init__(self):
-        self.conn = Neo4jConnection()
+        self.connection = psycopg2.connect(
+            dbname='your_db',
+            user='your_user',
+            password='your_password',
+            host='localhost',
+            port='5432'
+        )
+        self.logger = logging.getLogger(__name__)
 
-    def execute_query(self, query_string: str) -> list:
-        with self.conn.get_session() as session:
-            result = session.run(query_string)
-            return [record.data() for record in result]
+    def execute_query(self, query, params=None, fetch_one=False):
+        self.logger.debug(f"Executing query: {query} with params: {params}")
+        with self.connection.cursor() as cursor:
+            cursor.execute(query, params)
+            if fetch_one:
+                result = cursor.fetchone()
+            else:
+                result = cursor.fetchall()
+            self.connection.commit()
+            return result
 
     def find_shortest_path(self, source_node_id: str, target_node_id: str) -> list:
         with self.conn.get_session() as session:

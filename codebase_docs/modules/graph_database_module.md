@@ -579,7 +579,7 @@ Error Handling: Standardize error responses with meaningful messages and HTTP st
 Example REST API Structure:
 
 bash
-Copy code
+```
 /api
   /v1
     /nodes
@@ -598,6 +598,7 @@ Copy code
       POST /query/execute
       GET /query/shortest-path
       POST /query/subgraph
+```
 Security Considerations
 Authentication: Implement secure token-based authentication (e.g., JWT) to verify user identities.
 Authorization: Enforce role-based access controls to restrict access to sensitive operations.

@@ -1,0 +1,134 @@
+/* src/ui/styles.css */
+
+/* Basic styling for the Web UI */
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+  }
+  
+  .header, .footer {
+    background-color: #0074D9;
+    color: #fff;
+    padding: 10px 20px;
+  }
+  
+  .header h1, .footer p {
+    margin: 0;
+  }
+  
+  nav ul {
+    list-style: none;
+    display: flex;
+    gap: 15px;
+  }
+  
+  nav a {
+    color: #fff;
+    text-decoration: none;
+  }
+  
+  .app-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+  }
+  
+  main {
+    flex: 1;
+    padding: 20px;
+    background-color: #f4f4f4;
+  }
+  
+  .btn {
+    padding: 8px 12px;
+    background-color: #0074D9;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
+  }
+  
+  .btn:hover {
+    background-color: #005fa3;
+  }
+  
+  .save-btn {
+    margin-top: 10px;
+  }
+  
+  .chat-interface {
+    display: flex;
+    flex-direction: column;
+    height: 600px;
+  }
+  
+  .chat-messages {
+    flex: 1;
+    overflow-y: auto;
+    background-color: #fff;
+    padding: 10px;
+    border: 1px solid #ccc;
+  }
+  
+  .message {
+    margin-bottom: 10px;
+  }
+  
+  .message.user {
+    text-align: right;
+  }
+  
+  .message.llm {
+    text-align: left;
+  }
+  
+  .chat-input {
+    display: flex;
+    margin-top: 10px;
+  }
+  
+  .chat-input input {
+    flex: 1;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  .chat-input .send-btn {
+    margin-left: 10px;
+  }
+  
+  .log-viewer {
+    overflow-x: auto;
+  }
+  
+  .log-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .log-table th, .log-table td {
+    padding: 8px 12px;
+    border: 1px solid #ccc;
+  }
+  
+  .project-manager input[type="text"],
+  .project-manager input[type="file"],
+  .user-settings input[type="text"],
+  .user-settings input[type="email"],
+  .user-settings select {
+    padding: 8px;
+    margin-right: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  .view-btn {
+    margin-left: 10px;
+  }
+  
+  .socket-status {
+    margin-top: 10px;
+    font-style: italic;
+  }

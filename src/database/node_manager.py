@@ -1,44 +1,38 @@
-from .database import Neo4jConnection
+import logging
+from .query_engine import QueryEngine
 
 class NodeManager:
     def __init__(self):
-        self.conn = Neo4jConnection()
+        self.query_engine = QueryEngine()
+        self.logger = logging.getLogger(__name__)
 
-    def create_node(self, node_type: str, attributes: dict) -> dict:
-        with self.conn.get_session() as session:
-            result = session.run(
-                f"CREATE (n:{node_type} $attributes) RETURN n",
-                attributes=attributes
-            )
-            return result.single()["n"]
+    def create_execution(self, project_id):
+        self.logger.info(f"Creating execution record for project_id: {project_id}")
+        query = """
+        INSERT INTO executions (project_id, status, started_at)
+        VALUES (%s, %s, NOW())
+        RETURNING id
+        """
+        execution_id = self.query_engine.execute_query(query, (project_id, 'Running'))
+        self.logger.info(f"Execution record created with id: {execution_id}")
+        return execution_id
 
-    def delete_node(self, node_id: str) -> None:
-        with self.conn.get_session() as session:
-            session.run("MATCH (n) WHERE n.id = $id DETACH DELETE n", id=node_id)
+    def get_execution_status(self, execution_id):
+        self.logger.info(f"Fetching status for execution_id: {execution_id}")
+        query = "SELECT status FROM executions WHERE id = %s"
+        status = self.query_engine.execute_query(query, (execution_id,), fetch_one=True)
+        self.logger.info(f"Status for execution_id {execution_id}: {status}")
+        return status
 
-    def update_node(self, node_id: str, attributes: dict) -> dict:
-        with self.conn.get_session() as session:
-            result = session.run(
-                "MATCH (n) WHERE n.id = $id SET n += $attributes RETURN n",
-                id=node_id,
-                attributes=attributes
-            )
-            return result.single()["n"]
+    def update_execution_status(self, execution_id, status):
+        self.logger.info(f"Updating status for execution_id: {execution_id} to {status}")
+        query = "UPDATE executions SET status = %s, ended_at = NOW() WHERE id = %s"
+        self.query_engine.execute_query(query, (status, execution_id))
+        self.logger.info(f"Execution_id {execution_id} updated to status: {status}")
 
-    def get_node(self, node_id: str) -> dict:
-        with self.conn.get_session() as session:
-            result = session.run(
-                "MATCH (n) WHERE n.id = $id RETURN n",
-                id=node_id
-            )
-            return result.single()["n"]
-
-    def find_nodes(self, filters: dict) -> list:
-        with self.conn.get_session() as session:
-            query = "MATCH (n) WHERE "
-            conditions = []
-            for key, value in filters.items():
-                conditions.append(f"n.{key} = ${key}")
-            query += " AND ".join(conditions) + " RETURN n"
-            result = session.run(query, **filters)
-            return [record["n"] for record in result]
+    def get_execution_logs(self, execution_id):
+        self.logger.info(f"Retrieving logs for execution_id: {execution_id}")
+        query = "SELECT logs FROM executions WHERE id = %s"
+        logs = self.query_engine.execute_query(query, (execution_id,), fetch_one=True)
+        self.logger.info(f"Logs retrieved for execution_id {execution_id}")
+        return logs

@@ -1,22 +1,26 @@
 import re
 from typing import Dict
-
+from src.agent.chat_with_ollama import ChatGPT  # {{ edit_1 }}
+import json
 class NLPProcessor:
-    def parse_input(self, user_message: str) -> Dict:
-        """
-        Parses the user's message to identify intent and extract entities.
-        """
-        # Simple intent and entity extraction logic (to be expanded)
-        intent = "unknown"
-        entities = {}
+    def __init__(self):
+        self.llm_client = ChatGPT()  # {{ edit_2 }}
 
-        if "generate" in user_message.lower():
-            intent = "generate_code"
-            match = re.search(r"generate a new (\w+)", user_message.lower())
-            if match:
-                entities["module"] = match.group(1)
-
-        return {"intent": intent, "entities": entities}
+    async def parse_input(self, user_message: str) -> Dict:
+        """
+        Parses the user's message to identify intent and extract entities using LLM.
+        """
+        prompt = (
+            "Analyze the following user message and return a JSON object with 'intent' and 'entities'.\n\n"
+            f"User Message: {user_message}"
+        )
+        response = await self.llm_client.generate(prompt)  # {{ edit_3 }}
+        # Assuming the LLM returns a JSON string
+        try:
+            parsed = json.loads(response)
+            return parsed
+        except json.JSONDecodeError:
+            return {"intent": "unknown", "entities": {}}
 
     def generate_response(self, parsed_input: Dict) -> str:
         """
