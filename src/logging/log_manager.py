@@ -40,3 +40,14 @@ class ThoughtLogStorage:
         # Filter logs based on user_id and time_range (simplified)
         filtered_logs = [log for log in logs if user_id in log and start <= datetime.fromisoformat(log.split(' - ')[0]) <= end]
         return filtered_logs
+
+# API Layer Module configuration
+logger = logging.getLogger("gbcms_api_layer")
+logger.setLevel(logging.INFO)
+
+handler = logging.StreamHandler()
+formatter = logging.Formatter(
+    '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+)
+handler.setFormatter(formatter)
+logger.addHandler(handler)

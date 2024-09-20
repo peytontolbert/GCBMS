@@ -89,6 +89,20 @@ Responsible for visualizing the codebase as an interactive graph, enabling users
 - **Cytoscape.js**: For rendering and managing the interactive graph.
 - **D3.js**: Enhances graph animations and transitions.
 
+**Graph Visualization Enhancements:**
+- **Color Coordination:**
+  - **Nodes:**
+    - **Green Boxes (File Nodes):** Represent files in the codebase.
+    - **Red Boxes (Function Nodes):** Represent functions within files.
+  - **Edges:**
+    - **Yellow Lines (Containment Relationship):** Indicate that a function is contained within a file.
+    - **Green Lines (Function Dependency):** Show dependencies between functions within the same file.
+    - **Blue Lines (Cross-File Function Dependency):** Represent dependencies between functions across different files.
+
+- **Interactive Features:**
+  - **Clickable Nodes:** Clicking on a node opens the corresponding code in the Code Editor.
+  - **Code Editing:** Users can edit code manually or utilize the chat interface to add context-aware modifications.
+
 ### Code Editor
 **Description:**
 
@@ -315,6 +329,7 @@ A user seeks assistance in generating boilerplate code for a new feature.
 - **Monaco Editor**: The code editor that powers Visual Studio Code, offering a rich editing experience.
 - **WebSocket**: A protocol providing full-duplex communication channels over a single TCP connection.
 
+
 ## Visual Aids
 ![Web UI Module Architecture](path/to/web_ui_module_architecture_diagram.png)
 ![User Interaction Flow](path/to/user_interaction_flow_diagram.png)
@@ -369,3 +384,23 @@ A user seeks assistance in generating boilerplate code for a new feature.
 - **License**: MIT License
 - **Terms**:
   Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software...
+
+
+### Project Import Integration
+
+**Automated Codebase Import:**
+- **Functionality:** Allows users to import an existing codebase during project creation.
+- **Process:**
+  1. **Initiate Import:** User selects "Import Existing Codebase" in the Project Manager.
+  2. **Parsing:** The system autonomously parses the codebase to identify files, classes, functions, and their relationships.
+  3. **Graph Population:** Identified elements are converted into nodes and edges and uploaded to the Graph Database.
+  4. **Visualization:** The imported project is visualized in the Graph Viewer with appropriate color-coded nodes and edges.
+
+**Benefits:**
+- **Efficiency:** Streamlines the process of integrating existing projects into GBCMS.
+- **Accuracy:** Ensures that all relevant connections and dependencies are accurately represented in the graph.
+- **User Experience:** Provides a seamless transition for users bringing their codebases into the system.
+
+**Configuration Options:**
+- **Supported Languages:** Initially supports Python, JavaScript, and Java.
+- **Customization:** Allows users to specify parsing preferences or exclude certain files/directories during import.
