@@ -23,7 +23,7 @@ User Interaction via Web UI:
 Project Self-Management:
 
 ☐ System self-improvement capabilities.
-☐ Autonomous updates and configuration management.
+☐ Updates and configuration management.
 ☐ Ability to modify its own behavior dynamically.
 Advanced Features:
 
