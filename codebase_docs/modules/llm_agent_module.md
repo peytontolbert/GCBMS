@@ -441,16 +441,30 @@ A user encounters an error and requests an explanation.
 ## Visual Aids
 ```mermaid
 graph TD
-    A[User Input] --> B[LLM Agent]
-    B --> C[Natural Language Processing]
-    C --> D[Task Planning]
-    D --> E[Knowledge Retrieval]
-    E --> F[Action Generation]
-    F --> G[Output Generation]
-    G --> H[User Response]
+    User([User]) <--> ChatInterface[Chat Interface]
+    ChatInterface <--> LLMAgent[LLM Agent]
     
-    I[External Data Sources] -.-> E
-    J[API Integrations] -.-> F
+    subgraph LLM Agent Module
+        LLMAgent --> NLP[Natural Language Processor]
+        LLMAgent --> AE[Action Engine]
+        LLMAgent --> CME[Code Modification Engine]
+        LLMAgent --> EH[Error Handler]
+        LLMAgent --> TL[Thought Logger]
+        LLMAgent <--> OAI[Ollama API Interface]
+    end
+    
+    NLP --> AE
+    AE --> CME
+    CME --> EH
+    AE --> TL
+    CME --> TL
+    EH --> TL
+    
+    OAI <--> OllamaAPI[Ollama API]
+    
+    CME <--> CodebaseGraph[Codebase Graph]
+    TL --> LogStorage[(Log Storage)]
+    EH --> LogStorage
 ```
 
 ## Testing Strategies
