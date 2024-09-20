@@ -38,7 +38,7 @@ Ensure you have the following software installed:
 ### Clone the Repository
 
 ```bash
-git clone https://github.com/yourusername/gbcms.git
+git clone https://github.com/peytontolbert/gbcms.git
 cd gbcms
 ```
 
@@ -140,7 +140,7 @@ python app.py
 In a new terminal:
 
 ```bash
-cd frontend
+cd src/ui
 npm start
 ```
 

@@ -1,7 +1,7 @@
 # LLM Agent Module Implementation
 
 ## Overview
-The `LLMAgent` module serves as the core component of the LLM-powered system, responsible for processing user inputs, determining appropriate actions, modifying codebases, handling errors, and logging internal processes. It integrates various sub-components to ensure seamless interaction and robust functionality.
+The `LLMAgent` module serves as the core component of the LLM-powered system, responsible for processing user inputs, determining appropriate actions, modifying codebases, handling errors, and logging internal processes. **Leveraging Large Language Models (LLMs) through the `ChatGPT` client, it integrates various sub-components to ensure seamless interaction and robust functionality.**
 
 ## Components
 
@@ -28,7 +28,6 @@ Handles the parsing of user messages to identify intents and extract relevant en
 - `ChatGPT` from `chat_with_ollama.py`
 
 **Example Usage:**
-python
 ```
 nlp_processor = NLPProcessor()
 parsed = nlp_processor.parse_input("Generate a new authentication module.")
@@ -68,7 +67,6 @@ Determines and orchestrates actions based on the parsed user inputs. It interact
 - `ChatGPT` from `chat_with_ollama.py`
 
 **Example Usage:**
-python
 ```
 action_engine = ActionEngine()
 action = action_engine.decide_action(parsed_input)
@@ -101,7 +99,6 @@ Manages modifications to the codebase, including updating existing code nodes an
 - `NodeManager` from `node_manager.py`
 
 **Example Usage:**
-python
 ```
 code_modifier = CodeModifier()
 updated_node = code_modifier.modify_code(node_id="node123", new_content="def new_function(): pass")
@@ -133,7 +130,6 @@ Handles exceptions and errors, ensuring that the system responds gracefully and 
 - `logging`
 
 **Example Usage:**
-python
 ```
 error_handler = ErrorHandler()
 try:
@@ -162,7 +158,6 @@ Logs the internal reasoning and decision-making processes of the `LLMAgent` for 
 - `logging`
 
 **Example Usage:**
-python
 ```
 thought_logger = ThoughtLogger()
 thought_logger.log_thought("Decided to create a new authentication module based on user request.")
@@ -172,19 +167,19 @@ thought_logger.log_thought("Decided to create a new authentication module based 
 
 ### 6. ChatGPT
 **Description:**
-Interfaces with the Ollama API to leverage LLM functionalities for processing and generating natural language content.
+**Uses LLMs to process and generate natural language content, enabling advanced text generation capabilities within the system.** Interfaces with the Ollama API to leverage LLM functionalities for processing and generating natural language content.
 
 **Class: `ChatGPT`**
 
 **Methods:**
 - `generate(prompt: str) -> str`
-  - **Description:** Sends a prompt to the Ollama API and retrieves the generated response.
+  - **Description:** Sends a prompt to the Ollama API and retrieves the generated response using LLMs.
   - **Parameters:**
     - `prompt`: The input text to send to the LLM.
   - **Returns:** A string containing the generated text.
 
 - `robust_chat_with_ollama(system_prompt: str, user_prompt: str) -> Dict[str, Any]`
-  - **Description:** Engages in a robust conversation with Ollama, ensuring valid JSON responses.
+  - **Description:** Engages in a robust conversation with Ollama, ensuring valid JSON responses by utilizing LLMs.
   - **Parameters:**
     - `system_prompt`: The system-level prompt.
     - `user_prompt`: The user's input prompt.
@@ -196,7 +191,6 @@ Interfaces with the Ollama API to leverage LLM functionalities for processing an
 - `aiohttp`, `asyncio`, `json`, `re`, `tenacity`, `jsonschema`, `requests`, `time`, `logging`
 
 **Example Usage:**
-python
 ```
 ollama_client = ChatGPT()
 response = await ollama_client.generate("Generate a Python function for user authentication.")
@@ -206,19 +200,19 @@ response = await ollama_client.generate("Generate a Python function for user aut
 
 ### 7. LLMAgent
 **Description:**
-Coordinates all components to handle user messages, perform actions, modify codebases, handle errors, and generate responses.
+Coordinates all components to handle user messages, perform actions, modify codebases, handle errors, and generate responses. **Utilizes LLMs via the `ChatGPT` component to interpret user inputs and generate coherent, contextually appropriate responses.**
 
 **Class: `LLMAgent`**
 
 **Methods:**
 - `handle_user_message(user_message: str) -> str`
-  - **Description:** Processes a user's message by parsing input, deciding actions, executing them, and generating a response.
+  - **Description:** Processes a user's message by parsing input, deciding actions, executing them, and generating a response using LLMs.
   - **Parameters:**
     - `user_message`: The raw input message from the user.
   - **Returns:** A string response to be sent back to the user.
 
 - `generate_response(result: Dict[str, Any]) -> str`
-  - **Description:** Formats the action results into a user-friendly response.
+  - **Description:** Formats the action results into a user-friendly response using LLMs for natural language generation.
   - **Parameters:**
     - `result`: The dictionary containing action results.
   - **Returns:** A string containing the final response.
@@ -227,8 +221,6 @@ Coordinates all components to handle user messages, perform actions, modify code
 - `NLPProcessor`, `ActionEngine`, `ErrorHandler`, `ThoughtLogger`, `ChatGPT`, `logging`
 
 **Example Usage:**
-
-python
 ```
 from src.agent import LLMAgent
 agent = LLMAgent()
@@ -262,7 +254,7 @@ print(response)
    - All decisions and results are logged by `ThoughtLogger`.
 
 8. **Generating Response:**
-   - `LLMAgent` formats the results into a user-friendly response.
+   - `LLMAgent` uses the `ChatGPT` component to generate a coherent and contextually appropriate response to the user.
 
 9. **Error Handling:**
    - Any exceptions encountered are managed by `ErrorHandler`, and appropriate messages are logged and returned to the user.
@@ -278,7 +270,7 @@ print(response)
   - Detailed error information is logged using `ErrorHandler` and `ThoughtLogger` for later analysis.
 
 - **User Feedback:**
-  - Users receive clear and concise error messages without exposing sensitive internal details.
+  - **LLMs are utilized to generate clear and concise error messages, ensuring users receive understandable feedback without exposing sensitive internal details.**
 
 ---
 

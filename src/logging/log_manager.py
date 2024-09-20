@@ -4,22 +4,22 @@ from datetime import datetime
 
 class LogManager:
     def __init__(self):
-        self.logger = logging.getLogger('LogManager')
-        self.logger.setLevel(logging.INFO)
-        handler = logging.FileHandler('logs/system.log')
-        formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
-        handler.setFormatter(formatter)
-        self.logger.addHandler(handler)
-    
+        self.logger = logging.getLogger(__name__)
+        logging.basicConfig(level=logging.INFO)
+
     def log_event(self, event_type: str, details: Dict) -> None:
-        self.logger.info(f"EventType: {event_type}, Details: {details}")
-    
-    def retrieve_logs(self, filters: Dict) -> List[str]:
-        # Simplified retrieval logic
-        with open('logs/system.log', 'r') as file:
-            logs = file.readlines()
-        # Apply filters (not implemented)
-        return logs
+        """
+        Logs a general system event.
+        """
+        self.logger.info(f"Event Type: {event_type}, Details: {details}")
+
+    def retrieve_logs(self, filters: Dict) -> List[Dict]:
+        """
+        Retrieves logs based on specified filters.
+        """
+        # Placeholder for log retrieval logic
+        # In a real implementation, this would query a log storage system
+        return [{"event_type": "example_event", "details": {"key": "value"}, "timestamp": "2023-10-01T12:00:00Z"}]
 
 class ThoughtLogStorage:
     def __init__(self):
